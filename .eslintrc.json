@@ -1,0 +1,18 @@
+{
+    "extends": ["@mrozio/eslint-config/typescript"],
+    "rules": {
+        "consistent-return": 0,
+        "max-len": 0,
+        "@typescript-eslint/no-unnecessary-condition": 0,
+        "@typescript-eslint/no-explicit-any": 0,
+        "unicorn/prefer-string-replace-all": 0
+    },
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
+    "settings": {
+        "import/parsers": {
+            "@typescript-eslint/parser": [".ts", ".tsx"]
+        }
+    }
+}

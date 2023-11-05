@@ -1,0 +1,46 @@
+{
+  "name": "clittle",
+  "version": "0.0.0",
+  "description": "Tiny, yet powerful JavaScript library for building CLI applications.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "repository": "mrozio13pl/clittle",
+  "author": "mrozio13pl",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsup src/index.ts",
+    "lint": "eslint src",
+    "test": "npm run lint && npx vitest run --coverage",
+    "release": "release-it"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "minicolumns": "^1.0.0",
+    "ofi": "^1.3.1"
+  },
+  "devDependencies": {
+    "@mrozio/eslint-config": "^1.0.1",
+    "@release-it/conventional-changelog": "^7.0.2",
+    "@types/node": "^20.8.8",
+    "@vitest/coverage-v8": "^0.34.6",
+    "eslint": "^8.51.0",
+    "get-caller-file": "^2.0.5",
+    "release-it": "^16.2.1",
+    "ts-node": "^10.9.1",
+    "tsup": "^7.2.0",
+    "typescript": "^5.2.2",
+    "vitest": "^0.34.6"
+  },
+  "packageManager": "^pnpm@8.9.0"
+}

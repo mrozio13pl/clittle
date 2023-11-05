@@ -45,7 +45,7 @@ bun install clittle
 
 ## Examples
 
-__Parser__
+__Parser__\
 Basic example
 
 ```js
@@ -69,7 +69,7 @@ $ node .\examples\simple.js --files file1 file2
 { options: { name: 'joe', _: [], files: [ 'file1', 'file2' ] } }
 ```
 
-__Automated help message & version__
+__Automated help message & version__\
 Display auto-generated help message and version
 
 ```js
@@ -118,7 +118,7 @@ Examples
   $ node examples/help.js -n "your name" --run 5
 ```
 
-__Commands__
+__Commands__\
 Create commands with arguments.
 
 ```js
@@ -181,7 +181,8 @@ Options for handling unknown or missing arguments and flags, managing help messa
 
 ##### `showVersion`
 
-Type: `(version: string) => any` | `Boolean`\
+Type: `(version: string) => any` | `Boolean`
+
 Custom function that will handle `--version` option or boolean to either enable the default function or disable this option entirely.
 
 Example:
@@ -194,7 +195,8 @@ cli('my-cli', 'My CLI app', {
 
 ##### `showHelp`
 
-Type: `(meta: CommandMeta) => any` | `Boolean`\
+Type: `(meta: CommandMeta) => any` | `Boolean`
+
 Custom function that will handle `--help` option or boolean to either enable the default function or disable this option entirely.
 
 ```ts
@@ -244,7 +246,8 @@ cli('my-cli', 'My CLI app', {
 
 ##### `onMissingArguments`
 
-Type: `(args: string[]) => any` | `Boolean`\
+Type: `(args: string[]) => any` | `Boolean`
+
 Custom function that will handle missing arguments or boolean to either enable or disable this feature.\
 By default it's going to throw `MissingArgumentsError`.
 
@@ -258,7 +261,8 @@ cli('my-cli', 'My CLI app', {
 
 ##### `onMissingFlags`
 
-Type: `(flags: string[]) => any` | `Boolean`\
+Type: `(flags: string[]) => any` | `Boolean`
+
 Custom function that will handle missing flags or boolean to either enable or disable this feature.\
 By default it's going to throw `MissingFlagsError`.
 
@@ -270,23 +274,10 @@ cli('my-cli', 'My CLI app', {
 })
 ```
 
-##### `onUnknownFlags`
-
-Type: `(flags: string[]) => any`\
-Custom function that will handle unknown flags.\
-By default they are going to be ignored.
-
-Example:
-
-```js
-cli('my-cli', 'My CLI app', {
-    onUnknownFlags: (flags) => console.log('WARN! Unknown Flags:', flags.join(', '))
-})
-```
-
 ##### `onUnknownArguments`
 
-Type: `(args: string[]) => any`\
+Type: `(args: string[]) => any`
+
 Custom function that will handle unknown arguments.\
 By default it's going to throw `InvalidArgumentsError`.
 
@@ -295,6 +286,21 @@ Example:
 ```js
 cli('my-cli', 'My CLI app', {
     onUnknownArguments: (args) => console.log('WARN! Unknown Arguments:', args.join(', '))
+})
+```
+
+##### `onUnknownFlags`
+
+Type: `(flags: string[]) => any`
+
+Custom function that will handle unknown flags.\
+By default they are going to be ignored.
+
+Example:
+
+```js
+cli('my-cli', 'My CLI app', {
+    onUnknownFlags: (flags) => console.log('WARN! Unknown Flags:', flags.join(', '))
 })
 ```
 
@@ -431,7 +437,7 @@ Run a callback function when the command is executed.
 ```ts
 import type { Argv } from 'ofi';
 
-type ParsedArguments = Record<string, string | string[]> & { options: Argv };
+type ParsedArguments = Record<string, any | any[]> & { options: Argv };
 type ActionCallback = (args: ParsedArguments) => any;
 ```
 
@@ -463,7 +469,7 @@ Parsed arguments.
 ```ts
 import type { Argv } from 'ofi';
 
-type ParsedArguments = Record<string, string | string[]> & { options: Argv };
+type ParsedArguments = Record<string, any | any[]> & { options: Argv };
 ```
 
 ##### Other additional properties:

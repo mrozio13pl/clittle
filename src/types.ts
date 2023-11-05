@@ -124,7 +124,7 @@ export declare interface Options {
 }
 
 /** Parsed arguments. */
-export declare type ParsedArguments = Record<string, string | string[]> & { options: Argv };
+export declare type ParsedArguments = Record<string, any | any[]> & { options: Argv };
 
 /** Callback function that handles command arguments and options. */
 export declare type ActionCallback = (args: ParsedArguments) => any;

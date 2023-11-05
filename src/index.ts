@@ -12,6 +12,18 @@ export * from './types';
  * @param {string} description CLI app description.
  * @param {Options} options Options.
  * @returns {Cli}
+ *
+ * @example
+ * ```js
+ * import { cli } from 'clittle';
+ *
+ * const prog = cli('my-cli');
+ *
+ * prog
+ *     .version('1.0.0')
+ *     .describe('My CLI app.');
+ * // ...
+ * ```
  */
 export function cli(name: string = basename(getCallerFile()), description?: string, options: Options = {}): Cli {
     return new Cli(name, description, options);

@@ -25,6 +25,22 @@
   "files": [
     "dist"
   ],
+  "keywords": [
+    "cli",
+    "args",
+    "parser",
+    "options",
+    "parameters",
+    "flags",
+    "tool",
+    "argv",
+    "commander",
+    "yargs",
+    "sade",
+    "mri",
+    "nopt",
+    "command line"
+  ],
   "dependencies": {
     "minicolumns": "^1.0.0",
     "ofi": "^1.3.1"

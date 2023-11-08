@@ -297,8 +297,8 @@ class Command {
 
         const parsed_args = { options: argv } as ParsedArguments;
 
-        let i = 0, current_arg = this.args[i];
-        for (; i < argv._.length; i++) {
+        let current_arg = this.args[0];
+        for (let i = 0; i < argv._.length; i++) {
             current_arg = this.args[i];
 
             if (!current_arg && this.#options.onUnknownArguments) {
@@ -307,6 +307,8 @@ class Command {
                 }
                 else throw new InvalidArgumentsError(`'${argv._[i]}' is not a defined argument`);
             }
+
+            if (!current_arg) break;
 
             if (current_arg.multiple) {
                 parsed_args[current_arg.name] = argv._.slice(i);

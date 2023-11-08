@@ -1,3 +1,12 @@
 
 
+## [0.1.1](https://github.com/mrozio13pl/clittle/compare/v0.1.0...v0.1.1) (2023-11-08)
+
+
+### 🐞 Bug Fixes
+
+* assign default parser options ([90c70df](https://github.com/mrozio13pl/clittle/commit/90c70dfca71c6df294b858e5aa8716e03dde5579))
+* ignore unknown arguments ([d10ebae](https://github.com/mrozio13pl/clittle/commit/d10ebae19b9513431235b839ace9bc1313a0eca3))
+* negated boolean flags ([8e35b86](https://github.com/mrozio13pl/clittle/commit/8e35b8699eb919d3bee8edc6cad5786a0add824b))
+
 ## 0.1.0 (2023-11-05)

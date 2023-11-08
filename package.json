@@ -1,6 +1,6 @@
 {
   "name": "clittle",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Tiny, yet powerful JavaScript library for building CLI applications.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

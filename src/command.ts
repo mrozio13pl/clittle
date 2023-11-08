@@ -136,7 +136,8 @@ class Command {
             , flagname = ''
             , description = options.description || ''
             , multiple = false
-            , required = false;
+            , required = false
+            , negated = false; // e.g. --no-foo
 
         // Split the `name` string into individual parts separated by commas
         const parts = name.trim().split(',').map(part => part.trim());
@@ -147,10 +148,11 @@ class Command {
                 for (const flag_part of split(part).map(part => part.trim())) {
                     if (flag_part.startsWith('--')) {
                         // flag
+                        if (flag_part.startsWith('--no-')) negated = true;
                         if (flag) {
                             throw new Error('flag can not be declared twice');
                         }
-                        flag = flag_part.slice(2);
+                        flag = flag_part.slice(2).replace(/^no-/, '');
                     } else if (flag_part.startsWith('-')) {
                         // alias
                         alias.push(flag_part.slice(1));
@@ -172,7 +174,11 @@ class Command {
         }
 
         if (!flag) throw new Error('flag name was not provided');
-        const type_: FlagOption['type'] = multiple ? 'array' : (options.type || flagname ? 'string' : 'boolean');
+        if (negated && multiple) throw new Error(`flag '${flag}' can't accept negations and array lists simultaneously`);
+        const type_: FlagOption['type'] = negated ? 'boolean' : (multiple ? 'array' : options.type ?? (flagname ? 'string' : 'boolean'));
+
+        // if negated, inverse the default value, e.g. false -> true
+        if (typeof options.default === 'boolean' && negated) options.default = !options.default;
 
         // Now add the option to the command
         ((this.#parser_options[type_] = this.#parser_options[type_] || []) as string[]).push(flag);

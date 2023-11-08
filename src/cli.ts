@@ -63,7 +63,9 @@ class Cli extends Command {
      * @param {string | string[]} args Arguments to parse.
      * @param {OfiOptions} options Parser options (they will be also used for every single command).
      */
-    parse(args: string | string[] = process.argv.slice(2), options: OfiOptions = { camelize: true, 'populate--': true }): ParsedArguments | void {
+    parse(args: string | string[] = process.argv.slice(2), options: OfiOptions): ParsedArguments | void {
+        options = { camelize: true, 'populate--': true, ...options };
+
         const _options = options; // this object will not include '--version' flag and will be passed to other commands
 
         if (this.#options.showVersion) {

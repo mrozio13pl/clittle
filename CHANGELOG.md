@@ -1,5 +1,12 @@
 
 
+## [0.1.2](https://github.com/mrozio13pl/clittle/compare/v0.1.1...v0.1.2) (2023-11-09)
+
+
+### 🐞 Bug Fixes
+
+* `parse` function forcing arguments ([43403df](https://github.com/mrozio13pl/clittle/commit/43403df23f5204fa9436c83a6025959c90240e48))
+
 ## [0.1.1](https://github.com/mrozio13pl/clittle/compare/v0.1.0...v0.1.1) (2023-11-08)
 
 

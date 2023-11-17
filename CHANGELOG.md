@@ -1,5 +1,12 @@
 
 
+## [0.2.0](https://github.com/mrozio13pl/clittle/compare/v0.1.2...v0.2.0) (2023-11-17)
+
+
+### 🌟 Features
+
+* command alias ([ccbc2df](https://github.com/mrozio13pl/clittle/commit/ccbc2dfcc12a56ba45b9140224a7519a16728c93))
+
 ## [0.1.2](https://github.com/mrozio13pl/clittle/compare/v0.1.1...v0.1.2) (2023-11-09)
 
 

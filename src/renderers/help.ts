@@ -22,11 +22,12 @@ export default function renderHelp(bin: string, fullcommandname: string, meta: C
 
     // Commands
     const commands_table = Object.keys(subcommands).map(cmdname => {
-        const command = subcommands[cmdname];
+        const command = subcommands[cmdname]
+            , desc = command.description + (command.aliases.length ? ` (alias: ${command.aliases.map(alias => '\'' + alias + '\'').join(', ')})` : '');
 
         return [
             '  ' + command.name,
-            command.description || ''
+            desc || ''
         ];
     });
     const commands = commands_table.length ? `${bold('Commands')}\n${row(commands_table, { separator: '    ' })}\n\n` : '';

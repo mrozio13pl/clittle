@@ -214,6 +214,7 @@ interface CommandMeta {
     flags: Record<string, FlagOption>;
     /** Arguments. */
     arguments: Argument[];
+    alias: string[];
     examples: string[];
 }
 
@@ -352,12 +353,27 @@ Set description of a command.
 ##### `description`
 Type: `String`
 
-##### `prog.example(example)`
+#### `prog.example(example)`
 
 Add an example to a command.
 
 ##### `example`
 Type: `String`
+
+#### `prog.alias(alias)`
+
+Add an alias/aliases to a command.
+
+##### `alias`
+Type: `String | String[]`
+
+Example:
+
+```js
+command.alias('-f');
+// ... or
+command.alias(['F']);
+```
 
 #### `prog.options(options)`
 
@@ -396,7 +412,7 @@ interface FlagOption {
 }
 ```
 
-#### `prog.command(name, description?)`
+#### `prog.command(name, description?, CommandOptions?)`
 
 Create new command interface.
 
@@ -410,6 +426,18 @@ Contains command name and arguments.
 Type: `String`\
 Command description.
 
+##### `CommandOptions`
+
+Type: `Object`
+Command options.
+
+```ts
+interface CommandOptions {
+    /** Command alias. */
+    alias?: string | string[];
+}
+```
+
 This command will be available under the name of `'add'` with `'tasks'` as the required [variadic argument](#variadic-arguments).
 
 Example:
@@ -417,7 +445,7 @@ Example:
 ```js
 // tasks.js
 prog
-    .command('add <tasks...>', 'Add tasks')
+    .command('add <tasks...>', 'Add tasks', { alias: 'a' })
     .action(({ tasks }) => {
         console.log('Added tasks:', tasks.join(', '));
     })
@@ -477,6 +505,7 @@ type ParsedArguments = Record<string, any | any[]> & { options: Argv };
 * `prog.name`: _string_ - Command name.
 * `prog.description?`: _string_ - Given command description.
 * `prog.examples`: _string[]_ - Command examples.
+* `prog.aliases`: _string[]_ - Command aliases.
 * `prog.version_`: _string_ - CLI version.
 
 ## License

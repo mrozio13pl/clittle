@@ -2,7 +2,7 @@ import { DEFAULT, FLAG_REGEX, isMultipleArgument, merge, split } from './utils';
 import { InvalidArgumentsError, MissingArgumentsError, MissingFlagsError } from './errors';
 import renderHelp from './renderers/help';
 import { parse, type Argv, type Options as OfiOptions } from 'ofi';
-import type { ActionCallback, Argument, FlagOption, Options, ParsedArguments } from './types';
+import type { ActionCallback, Argument, CommandOptions, FlagOption, Options, ParsedArguments } from './types';
 
 class Command {
     readonly #bin: string;
@@ -14,6 +14,7 @@ class Command {
     protected readonly flags: Record<string, FlagOption>;
     /** Usage examples. */
     public readonly examples: string[];
+    private readonly aliases_: string[];
     // eslint-disable-next-line no-use-before-define
     protected readonly subs: Record<string, Command>;
     #handler?: ActionCallback;
@@ -64,6 +65,7 @@ class Command {
         this.description = description;
         this.flags = {};
         this.examples = [];
+        this.aliases_ = [];
         this.subs = {};
         this.#parser_options = {};
         this.#full_cmd_name = this.#name === DEFAULT ? '' : ' ' + this.#name;
@@ -80,6 +82,11 @@ class Command {
     /** Command name */
     get name(): string {
         return this.#name;
+    }
+
+    /** Command aliases */
+    get aliases(): string[] {
+        return this.aliases_;
     }
 
     /**
@@ -201,6 +208,7 @@ class Command {
      * Create a command.
      * @param {string} name Contains command name and arguments.
      * @param {string} description Command description.
+     * @param {CommandOptions} commandOptions Command options.
      * @returns {Command}
      *
      * @example
@@ -220,16 +228,34 @@ class Command {
      * Added tasks: Tidy my room, Wash the dishes
      * ```
      */
-    command(name: string, description?: string): Command {
+    command(name: string, description?: string, commandOptions: CommandOptions = {}): Command {
         const command = new Command(this.#bin, name, description, this.#options);
         if (this.subs[command.#name] instanceof Command) throw new Error(`${command.#name} already exists`);
 
         command.#parser_options = this.#parser_options;
         command.#options = this.#options;
         command.#full_cmd_name = this.#full_cmd_name + command.#full_cmd_name;
+        if (commandOptions.alias) command.alias(commandOptions.alias);
 
         this.subs[command.#name] = command;
         return command;
+    }
+
+    /**
+     * Add alias to the command.
+     * @param aliases Aliases.
+     * @returns {Command}
+     * @example
+     * ```js
+     * command.alias(['f', 'F']);
+     * command.alias('-f, -F');
+     * ```
+     */
+    alias(aliases: string | string[]): Command {
+        if (typeof aliases === 'string') aliases = aliases.split(',');
+        aliases = aliases.map(alias => alias.codePointAt(0) === 45 ? alias.slice(1) : alias);
+        this.aliases_.push(...aliases);
+        return this;
     }
 
     /**
@@ -253,6 +279,7 @@ class Command {
                 commands: this.subs,
                 flags: this.flags,
                 arguments: this.args,
+                alias: this.aliases_,
                 examples: this.examples
             });
             return this;
@@ -267,8 +294,9 @@ class Command {
 
     protected run(args: string | string[], argv: Argv, parserOptions: OfiOptions = {}): ParsedArguments | void {
         const cmd = argv._[0];
+        const command = this.subs[cmd] || Object.keys(this.subs).filter(sub => this.subs[sub].aliases_.includes(cmd)).map(sub => this.subs[sub])[0];
 
-        if (cmd && this.subs[cmd] instanceof Command) {
+        if (cmd && command instanceof Command) {
             const arg = argv._.shift();
 
             if (arg) {
@@ -279,7 +307,7 @@ class Command {
                 }
             }
 
-            return this.subs[cmd].run(args, argv);
+            return command.run(args, argv);
         }
 
         // assing parser options

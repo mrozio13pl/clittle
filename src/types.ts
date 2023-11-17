@@ -29,7 +29,13 @@ export declare interface CommandMeta {
     flags: Command['flags'];
     /** Arguments. */
     arguments: Command['args'];
+    alias: Command['aliases'];
     examples: Command['examples'];
+}
+
+export declare interface CommandOptions {
+    /** Command alias. */
+    alias?: string | string[];
 }
 
 export declare interface Options {

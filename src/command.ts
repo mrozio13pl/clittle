@@ -20,6 +20,7 @@ class Command {
     #handler?: ActionCallback;
     /** Command arguments. */
     private readonly args: Argument[] = [];
+    #onUnknownOptions?: ((flags: string[]) => any);
     // this is used later for help renderer when using commands inside other commands
     #full_cmd_name: string;
 
@@ -71,7 +72,7 @@ class Command {
         this.#full_cmd_name = this.#name === DEFAULT ? '' : ' ' + this.#name;
 
         if (this.#options.onUnknownFlags) {
-            this.#parser_options.unknown = this.#options.onUnknownFlags;
+            this.#onUnknownOptions = this.#options.onUnknownFlags;
         }
 
         if (this.#options.showHelp) {
@@ -116,10 +117,10 @@ class Command {
      */
     options(options: Options): Command {
         this.#options = Object.assign(this.#options, options);
-        if (this.#options.onUnknownFlags) this.#parser_options.unknown = this.#options.onUnknownFlags;
+        if (this.#options.onUnknownFlags) this.#onUnknownOptions = this.#options.onUnknownFlags;
         for (const sub in this.subs) {
             this.subs[sub].#options = Object.assign(this.subs[sub].#options, options);
-            if (this.#options.onUnknownFlags) this.subs[sub].#parser_options.unknown = this.#options.onUnknownFlags;
+            if (this.#options.onUnknownFlags) this.#onUnknownOptions = this.#options.onUnknownFlags;
         }
         return this;
     }
@@ -295,6 +296,7 @@ class Command {
     protected run(args: string | string[], argv: Argv, parserOptions: OfiOptions = {}): ParsedArguments | void {
         const cmd = argv._[0];
         const command = this.subs[cmd] || Object.keys(this.subs).filter(sub => this.subs[sub].aliases_.includes(cmd)).map(sub => this.subs[sub])[0];
+        const unknownOptions: string[] = [];
 
         if (cmd && command instanceof Command) {
             const arg = argv._.shift();
@@ -316,7 +318,7 @@ class Command {
         if (typeof parserOptions.string === 'string') parserOptions.string = [parserOptions.string];
         if (typeof parserOptions.number === 'string') parserOptions.number = [parserOptions.number];
 
-        argv = parse(args, merge(this.#parser_options, parserOptions)) as Argv;
+        argv = parse(args, { ...merge(this.#parser_options, parserOptions), unknown: (flag: string) => unknownOptions.push(flag) }) as Argv;
 
         if (argv.help) {
             this.help();
@@ -375,6 +377,8 @@ class Command {
                 }
             }
         }
+
+        if (unknownOptions.length && typeof this.#onUnknownOptions === 'function') this.#onUnknownOptions(unknownOptions);
 
         if (typeof this.#handler === 'function') {
             this.#handler(parsed_args);

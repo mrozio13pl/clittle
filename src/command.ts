@@ -244,7 +244,7 @@ class Command {
 
     /**
      * Add alias to the command.
-     * @param aliases Aliases.
+     * @param {string | string[]} aliases Aliases.
      * @returns {Command}
      * @example
      * ```js

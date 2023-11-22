@@ -1,5 +1,13 @@
 
 
+## [0.2.1](https://github.com/mrozio13pl/clittle/compare/v0.2.0...v0.2.1) (2023-11-22)
+
+
+### 🐞 Bug Fixes
+
+* `onUnknownOptions` being fired for each unknown flag ([ad84c9c](https://github.com/mrozio13pl/clittle/commit/ad84c9c4cfdaa2356a5b12a2feb563c88cc0eaab))
+* jsdoc for `alias` function ([bd058de](https://github.com/mrozio13pl/clittle/commit/bd058deb03077af698eb49a580acd18896bae78f))
+
 ## [0.2.0](https://github.com/mrozio13pl/clittle/compare/v0.1.2...v0.2.0) (2023-11-17)
 
 

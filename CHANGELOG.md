@@ -1,5 +1,7 @@
 
 
+## [0.2.2](https://github.com/mrozio13pl/clittle/compare/v0.2.1...v0.2.2) (2024-01-06)
+
 ## [0.2.1](https://github.com/mrozio13pl/clittle/compare/v0.2.0...v0.2.1) (2023-11-22)
 
 
